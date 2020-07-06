@@ -1,5 +1,7 @@
 <table class="table">
-		<tr><%= attachment_image_tag(user, :profile_image, :fill, 100, 100, fallback: "no_image.jpg") %></tr>
+		<tr>
+			<%= attachment_image_tag(user, :profile_image_id, :fill, 100, 100, fallback: "no_image.jpg") %>
+		</tr>
 
 		<tr>
 			<th>name</th>
@@ -29,7 +31,7 @@
 <% else %>
 	<div class="row">
 		<% if current_user.following?(user) %>
-			<%= link_to "フォローを外す", unfollow_path(user.id), method: :post, class: "col-xs-6　col-xs-offset-3 btn btn-primary" %>
+			<%= link_to "フォローを外す", unfollow_path(user.id), method: :post, class: "col-xs-6 col-xs-offset-3 btn btn-primary" %>
 		<% else %>
     		<%= link_to "フォローする", follow_path(user.id), method: :post, class: "col-xs-6 col-xs-offset-3 btn btn-success" %>
   		<% end %>
