@@ -3,14 +3,7 @@
 <%= form_for(@user) do |f| %>
 
 <!-- エラーメッセージ表示-->
-<% if @user.errors.any? %>
-	<h3><%= @user.errors.count %>error occurrence</h3><!--エラーメッセ-->
-	<ul>
-		<% @user.errors.full_messages.each do |message| %>
-		<li><%= message %></li>
-		<% end %>
-	</ul>
-<% end %>
+<%= render 'layouts/errors', obj: @user %>
 <!-- エラーメッセージ表示-->
 
 <div class="field">

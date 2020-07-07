@@ -12,7 +12,7 @@
     <tbody>
       <% @user.following_users.each do |following| %>
       <tr>
-        <td><%= attachment_image_tag following, :profile_image, fallback: "no-image-mini.jpg" %></td>
+        <td><%= attachment_image_tag following, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg" %></td>
         <td><%= following.name %></td>
         <td><%= "フォロー数：#{following.follower.count}" %></td>
         <td><%= "フォロワー数：#{following.followed.count }" %></td>
