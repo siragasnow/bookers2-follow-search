@@ -19,5 +19,54 @@
 		<%= render 'books/index', books: @books %>
 		<!--books一覧 -->
 	</div>
+	<%# マイページの場合、ここに住所情報 %>
+    <% if @user.id == current_user.id %>
+        <div class="your_map">
+        	<h2>Your MAP</h2>
+        	<div id="map" data-address="<%= @user.address %>" data-prefecture="<%= @user.prefecture_code %>" ></div>
+        </div>
+    <% end %>
+    <style>
+	#map{
+  		height: 400px;
+	}
+	</style>
 </div>
+
+<script>
+  let geocoder
+  function initMap() {
+    geocoder = new google.maps.Geocoder()
+    var initMap = document.getElementById('map')
+    console.log(initMap)
+    // latitude,longitudeから位置を特定
+    var map = new google.maps.Map(initMap, {
+              zoom: 15,
+              });
+
+  var inputAddress = initMap.getAttribute('data-address')
+  console.log(inputAddress)
+  // geocodingしたあとmapを移動
+  geocoder.geocode( { 'address': inputAddress}, function(results, status) {
+    if (status == 'OK') {
+      // map.setCenterで地図が移動
+      map.setCenter(results[0].geometry.location);
+
+      // google.maps.MarkerでGoogleMap上の指定位置にマーカが立つ
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+  }
+</script>
+
+<%# アドレス内 key= APIキーを記述 %>
+<%# Githubなどにアップロードすべきでない第三者に漏洩すると危険な外部のAPIキーの情報を環境変数として管理 →.env %>
+<script async defer
+              src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap">
+</script>
 

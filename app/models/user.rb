@@ -40,6 +40,27 @@ class User < ApplicationRecord
     end
   end
 
+  # prefecture_codeからprefecture_nameに変換するメソッド(カラム設定後に記述)
+  # prefecture_codeはuserが持っているカラム
+  include JpPrefecture
+  jp_prefecture :prefecture_code
+
+  def prefecture_name
+    JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+  end
+
+  def prefecture_name=(prefecture_name)
+    self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+  end
+
+  # バリデーションの前に送信されたaddressの値によってジオコーディング(緯度経度の算出)を行う
+  geocoded_by :address
+  after_validation :geocode
+  # geocoderで使用するaddressを定義
+  def address
+    self.prefecture_code + self.address_city + self.address_street
+  end
+
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, presence: true, length: {maximum: 20, minimum: 2}
   validates :introduction, length: {maximum: 50}

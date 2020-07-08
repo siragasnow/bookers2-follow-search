@@ -66,3 +66,12 @@ gem "refile-mini_magick"
 
 gem 'bootstrap-sass','~> 3.3.6'
 gem 'jquery-rails'
+
+# 住所検索機能追加
+gem 'jp_prefecture'
+
+# 住所から緯度経度検索できる(Google map)
+gem 'geocoder'
+
+# 環境変数
+gem "dotenv-rails"
