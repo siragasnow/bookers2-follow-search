@@ -42,7 +42,7 @@ class User < ApplicationRecord
 
   # prefecture_codeからprefecture_nameに変換するメソッド(カラム設定後に記述)
   # prefecture_codeはuserが持っているカラム
-  include JpPrefecture
+ include JpPrefecture
   jp_prefecture :prefecture_code
 
   def prefecture_name
